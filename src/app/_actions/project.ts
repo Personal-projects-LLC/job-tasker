@@ -14,12 +14,17 @@ const createProject = async (
   try {
     // Валидация данных
     const validatedData = await projectSchema.create.parseAsync(data);
+    const userId = 'actual-user-id'; // Замените на фактический идентификатор пользователя
 
     // Создание проекта в базе данных
     const project = await prisma.project.create({
       data: {
-        title: validatedData.title,
-        description: validatedData.description,
+        ...validatedData,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
       },
     });
 

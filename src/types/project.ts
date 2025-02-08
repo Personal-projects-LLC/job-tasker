@@ -12,6 +12,9 @@ export interface Project {
 export interface CreateProjectData {
   title: string;
   description: string;
+  user: {
+    id: string;
+  };
 }
 
 export interface ServerActionResponse<T> {

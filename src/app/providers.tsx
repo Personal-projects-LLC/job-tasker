@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import { SessionProvider } from 'next-auth/react';
 
 interface ProvidersProps {
   readonly children: ReactNode;
@@ -8,11 +9,10 @@ interface ProvidersProps {
 
 const Providers = ({ children }: ProvidersProps) => {
   return (
-    <>
-      {/* Auth provider will be added here */}
+    <SessionProvider>
       {/* Theme provider will be added here */}
       {children}
-    </>
+    </SessionProvider>
   );
 };
 

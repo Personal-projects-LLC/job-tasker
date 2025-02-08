@@ -40,6 +40,7 @@ const CreateProjectButton = ({
       const result = await onCreateProject({
         title: sanitizeInput(title),
         description: sanitizeInput(description),
+        user: { id: 'actual-user-id' }, // Replace with actual user ID
       });
 
       if (result.error) {
