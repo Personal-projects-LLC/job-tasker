@@ -8,7 +8,7 @@ describe('ProjectCard', () => {
     description: 'Test Description',
     status: 'active' as const,
     tasksCount: 3, // Убедитесь, что tasksCount имеет правильный тип
-    updatedAt: '2025-02-05T12:00:00.000Z',
+    updatedAt: new Date('2025-02-05T12:00:00.000Z'),
   };
 
   const mockOnDelete = jest.fn().mockImplementation(() => Promise.resolve());

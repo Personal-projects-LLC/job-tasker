@@ -1,10 +1,12 @@
+import { ProjectStatus as PrismaProjectStatus } from '@prisma/client';
+
 export interface Project {
   id: string;
   title: string;
   description: string;
-  status: 'active' | 'completed' | 'archived';
+  status: PrismaProjectStatus;
   tasksCount: number;
-  updatedAt: string;
+  updatedAt: Date;
 }
 
 export interface CreateProjectData {

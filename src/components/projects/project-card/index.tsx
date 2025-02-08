@@ -11,7 +11,7 @@ interface ProjectCardProps {
   readonly description: string;
   readonly status: 'active' | 'completed' | 'archived';
   readonly tasksCount: number;
-  readonly updatedAt: string;
+  readonly updatedAt: Date;
   readonly onDelete: (id: string) => Promise<ServerActionResponse<boolean>>;
 }
 
@@ -30,7 +30,7 @@ const ProjectCard = ({
   updatedAt,
   onDelete,
 }: ProjectCardProps) => {
-  const date = new Date(updatedAt).toLocaleDateString('en-US', {
+  const date = updatedAt.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
