@@ -3,7 +3,7 @@ import { Button } from '@/components/button';
 import { Container } from '@/components/container';
 import Link from 'next/link';
 
-export default function Home() {
+const Home = () => {
   return (
     <Layout>
       <Container className="py-24">
@@ -91,4 +91,6 @@ export default function Home() {
       </Container>
     </Layout>
   );
-}
+};
+
+export default Home;

@@ -14,11 +14,11 @@ export async function POST(request: Request) {
 
     // Формирование данных для создания GitHub issue
     const githubIssue = {
-      title: body.issue?.message || 'Новая проблема от SonarQube',
+      title: body.issue?.message ?? 'Новая проблема от SonarQube',
       body: `Детали проблемы:\n\n${JSON.stringify(body, null, 2)}`,
     };
 
-    const githubRepo = 'Personal-projects-LLC/job-tasker';
+    const githubRepo = process.env.GITHUB_REPO;
     const githubToken = process.env.GITHUB_TOKEN; // Убедитесь, что переменная окружения настроена
 
     const response = await axios.post(

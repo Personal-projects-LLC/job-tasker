@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
     if (body.issue?.status === 'CLOSED' || body.issue?.resolution === 'FIXED') {
       // Находим соответствующий GitHub issue по тексту
-      const githubRepo = 'Personal-projects-LLC/job-tasker';
+      const githubRepo = process.env.GITHUB_REPO;
       const githubToken = process.env.GITHUB_TOKEN;
 
       // Получаем список открытых issues из GitHub
