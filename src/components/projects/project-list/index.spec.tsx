@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { ProjectList } from '.';
+import ProjectList from '.';
+import { ServerActionResponse } from '@/types/project';
 
 describe('ProjectList', () => {
   const mockProjects = [
@@ -21,11 +22,15 @@ describe('ProjectList', () => {
     },
   ];
 
-  const mockOnDelete = jest
-    .fn()
-    .mockImplementation(() => Promise.resolve()) as jest.MockedFunction<
-    (id: string) => Promise<void>
-  >;
+  const mockOnDelete = jest.fn<
+    Promise<ServerActionResponse<boolean>>,
+    [string]
+  >();
+
+  mockOnDelete.mockResolvedValue({
+    data: true,
+    // error: 'Описание ошибки', если необходимо
+  });
 
   beforeEach(() => {
     jest.clearAllMocks();

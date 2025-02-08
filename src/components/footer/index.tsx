@@ -1,4 +1,4 @@
-import { Container } from '../container';
+import Container from '../container';
 import Link from 'next/link';
 
 const footerLinks = [
@@ -8,7 +8,7 @@ const footerLinks = [
   { name: 'Contact', href: '/contact' },
 ];
 
-export function Footer() {
+const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -38,4 +38,6 @@ export function Footer() {
       </Container>
     </footer>
   );
-}
+};
+
+export default Footer;

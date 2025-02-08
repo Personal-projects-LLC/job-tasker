@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Header } from './index';
+import Header from './index';
 import { usePathname } from 'next/navigation';
 
 // Mock next/navigation

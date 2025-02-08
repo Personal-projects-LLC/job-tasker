@@ -1,22 +1,14 @@
 'use client';
 
-import { ProjectCard } from '../project-card';
-
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  status: 'active' | 'completed' | 'archived';
-  tasksCount: number;
-  updatedAt: string;
-}
+import ProjectCard from '../project-card';
+import { Project, ServerActionResponse } from '@/types/project';
 
 interface ProjectListProps {
-  readonly projects: Project[];
-  readonly onDelete: (id: string) => Promise<void>;
+  readonly projects?: Project[];
+  readonly onDelete: (id: string) => Promise<ServerActionResponse<boolean>>;
 }
 
-export function ProjectList({ projects, onDelete }: ProjectListProps) {
+const ProjectList = ({ projects = [], onDelete }: ProjectListProps) => {
   if (projects.length === 0) {
     return (
       <div className="text-center py-12">
@@ -35,4 +27,6 @@ export function ProjectList({ projects, onDelete }: ProjectListProps) {
       ))}
     </div>
   );
-}
+};
+
+export default ProjectList;

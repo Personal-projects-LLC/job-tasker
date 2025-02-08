@@ -1,11 +1,17 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { DeleteProjectDialog } from './index';
+import DeleteProjectDialog from './index';
+import { ServerActionResponse } from '@/types/project';
 
 describe('DeleteProjectDialog', () => {
   const defaultProps = {
     projectId: '1',
     projectTitle: 'Test Project',
-    onDelete: jest.fn() as jest.MockedFunction<(id: string) => Promise<void>>,
+    onDelete: jest
+      .fn<Promise<ServerActionResponse<boolean>>, [string]>()
+      .mockResolvedValue({
+        data: true, // или false, в зависимости от сценария
+        // error: 'Описание ошибки', если необходимо
+      }),
     trigger: <button>Delete</button>,
   };
 

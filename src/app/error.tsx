@@ -8,7 +8,7 @@ interface ErrorComponentProps {
   readonly reset: () => void; // Mark 'reset' as readonly
 }
 
-export default function ErrorComponent({ error, reset }: ErrorComponentProps) {
+const ErrorComponent = ({ error, reset }: ErrorComponentProps) => {
   useEffect(() => {
     // Optionally log the error to an error reporting service
     console.error(error);
@@ -28,4 +28,6 @@ export default function ErrorComponent({ error, reset }: ErrorComponentProps) {
       </div>
     </div>
   );
-}
+};
+
+export default ErrorComponent;

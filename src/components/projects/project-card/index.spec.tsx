@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { ProjectCard } from '.';
+import ProjectCard from '.';
 
 describe('ProjectCard', () => {
   const mockProject = {

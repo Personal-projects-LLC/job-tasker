@@ -1,6 +1,6 @@
-import { Layout } from '@/components/layout';
-import { Button } from '@/components/button';
-import { Container } from '@/components/container';
+import Layout from '@/components/layout';
+import Button from '@/components/button';
+import Container from '@/components/container';
 import Link from 'next/link';
 
 const Home = () => {

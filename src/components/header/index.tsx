@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Container } from '../container';
-import { Button } from '../button';
+import Container from '../container';
+import Button from '../button';
 import { usePathname } from 'next/navigation';
 
 const navigation = [
@@ -11,7 +11,7 @@ const navigation = [
   { name: 'Analysis', href: '/analysis' },
 ];
 
-export function Header() {
+const Header = () => {
   const pathname = usePathname();
 
   return (
@@ -51,4 +51,6 @@ export function Header() {
       </Container>
     </header>
   );
-}
+};
+
+export default Header;

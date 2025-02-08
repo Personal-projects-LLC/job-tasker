@@ -54,7 +54,7 @@ interface ProjectCardProps {
   onStatusChange: (status: ProjectStatus) => void;
 }
 
-export const ProjectCard = ({
+const ProjectCard = ({
   id,
   title,
   status,

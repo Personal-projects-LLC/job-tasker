@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Layout } from './index';
+import Layout from './index';
 
 // Mock child components
 jest.mock('../header', () => ({

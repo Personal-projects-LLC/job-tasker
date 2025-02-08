@@ -6,7 +6,7 @@ interface ProvidersProps {
   readonly children: ReactNode;
 }
 
-export default function Providers({ children }: ProvidersProps) {
+const Providers = ({ children }: ProvidersProps) => {
   return (
     <>
       {/* Auth provider will be added here */}
@@ -14,4 +14,6 @@ export default function Providers({ children }: ProvidersProps) {
       {children}
     </>
   );
-}
+};
+
+export default Providers;

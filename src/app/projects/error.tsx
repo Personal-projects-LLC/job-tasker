@@ -1,8 +1,8 @@
 'use client';
 
-import { Layout } from '@/components/layout';
-import { Container } from '@/components/container';
-import { Button } from '@/components/button';
+import Layout from '@/components/layout';
+import Container from '@/components/container';
+import Button from '@/components/button';
 import { useEffect } from 'react';
 import Link from 'next/link';
 
@@ -12,7 +12,7 @@ interface ProjectsErrorProps {
   readonly reset: () => void; // Mark 'reset' as readonly
 }
 
-export default function ProjectsError({ error, reset }: ProjectsErrorProps) {
+const ProjectsError = ({ error, reset }: ProjectsErrorProps) => {
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -57,4 +57,6 @@ export default function ProjectsError({ error, reset }: ProjectsErrorProps) {
       </Container>
     </Layout>
   );
-}
+};
+
+export default ProjectsError;

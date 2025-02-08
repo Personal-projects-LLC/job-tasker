@@ -1,34 +1,45 @@
 'use client';
 
-import { Button } from '@/components/button';
+import Button from '@/components/button';
 import * as Dialog from '@radix-ui/react-dialog';
 import { ReactNode, useState } from 'react';
+import { ServerActionResponse } from '@/types/project';
 
 interface DeleteProjectDialogProps {
   readonly projectId: string;
   readonly projectTitle: string;
-  readonly onDelete: (id: string) => Promise<void>;
+  readonly onDelete: (id: string) => Promise<ServerActionResponse<boolean>>;
   readonly trigger: ReactNode;
 }
 
-export function DeleteProjectDialog({
+const DeleteProjectDialog = ({
   projectId,
   projectTitle,
   onDelete,
   trigger,
-}: DeleteProjectDialogProps) {
+}: DeleteProjectDialogProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     setLoading(true);
     setError(null);
 
-    void onDelete(projectId)
-      .then(() => setOpen(false))
-      .catch(() => setError('Failed to delete project'))
-      .finally(() => setLoading(false));
+    try {
+      const result = await onDelete(projectId);
+
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setOpen(false);
+      }
+    } catch (err) {
+      setError('Unexpected error occurred');
+      console.error('Project deletion error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -57,7 +68,7 @@ export function DeleteProjectDialog({
               <Button
                 type="button"
                 variant="destructive"
-                onClick={handleDelete}
+                onClick={() => void handleDelete()}
                 disabled={loading}
               >
                 {loading ? 'Deleting...' : 'Delete Project'}
@@ -69,4 +80,6 @@ export function DeleteProjectDialog({
       </Dialog.Portal>
     </Dialog.Root>
   );
-}
+};
+
+export default DeleteProjectDialog;

@@ -1,11 +1,16 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { CreateProjectButton } from '.';
+import CreateProjectButton from '.';
+import {
+  CreateProjectData,
+  Project,
+  ServerActionResponse,
+} from '@/types/project';
+
 describe('CreateProjectButton', () => {
-  const mockOnCreateProject = jest
-    .fn()
-    .mockImplementation(() => Promise.resolve()) as jest.MockedFunction<
-    () => Promise<void>
-  >;
+  const mockOnCreateProject = jest.fn<
+    Promise<ServerActionResponse<Project>>,
+    [CreateProjectData]
+  >();
 
   beforeEach(() => {
     jest.clearAllMocks();

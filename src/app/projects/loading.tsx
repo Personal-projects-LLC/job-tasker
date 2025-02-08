@@ -1,7 +1,7 @@
-import { Layout } from '@/components/layout';
-import { Container } from '@/components/container';
+import Layout from '@/components/layout';
+import Container from '@/components/container';
 
-export default function ProjectsLoading() {
+const ProjectsLoading = () => {
   return (
     <Layout>
       <Container className="py-12">
@@ -41,4 +41,6 @@ export default function ProjectsLoading() {
       </Container>
     </Layout>
   );
-}
+};
+
+export default ProjectsLoading;

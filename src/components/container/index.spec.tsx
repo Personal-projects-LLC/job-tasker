@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { Container } from './index';
+import Container from './index';
 
 describe('Container', () => {
   it('renders as a div by default', () => {

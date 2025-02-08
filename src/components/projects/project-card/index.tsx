@@ -1,8 +1,9 @@
 'use client';
 
-import { Button } from '@/components/button';
+import Button from '@/components/button';
 import Link from 'next/link';
-import { DeleteProjectDialog } from '../delete-project-dialog';
+import DeleteProjectDialog from '../delete-project-dialog';
+import { ServerActionResponse } from '@/types/project';
 
 interface ProjectCardProps {
   readonly id: string;
@@ -11,7 +12,7 @@ interface ProjectCardProps {
   readonly status: 'active' | 'completed' | 'archived';
   readonly tasksCount: number;
   readonly updatedAt: string;
-  readonly onDelete: (id: string) => Promise<void>;
+  readonly onDelete: (id: string) => Promise<ServerActionResponse<boolean>>;
 }
 
 const statusColors = {
@@ -20,7 +21,7 @@ const statusColors = {
   archived: 'bg-gray-500',
 } as const;
 
-export function ProjectCard({
+const ProjectCard = ({
   id,
   title,
   description,
@@ -28,7 +29,7 @@ export function ProjectCard({
   tasksCount,
   updatedAt,
   onDelete,
-}: ProjectCardProps) {
+}: ProjectCardProps) => {
   const date = new Date(updatedAt).toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
@@ -66,4 +67,6 @@ export function ProjectCard({
       </div>
     </div>
   );
-}
+};
+
+export default ProjectCard;

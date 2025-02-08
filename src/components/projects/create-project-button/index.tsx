@@ -1,23 +1,28 @@
 'use client';
 
-import { Button } from '@/components/button';
+import Button from '@/components/button';
 import { FormEvent, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 
+import {
+  CreateProjectData,
+  Project,
+  ServerActionResponse,
+} from '@/types/project';
+
 interface CreateProjectButtonProps {
-  onCreateProject: (data: {
-    title: string;
-    description: string;
-  }) => Promise<void>;
+  onCreateProject: (
+    data: CreateProjectData
+  ) => Promise<ServerActionResponse<Project>>;
 }
 
 const sanitizeInput = (input: string): string => {
   return input.replace(/</g, '&lt;').replace(/>/g, '&gt;').trim();
 };
 
-export function CreateProjectButton({
+const CreateProjectButton = ({
   onCreateProject,
-}: Readonly<CreateProjectButtonProps>) {
+}: Readonly<CreateProjectButtonProps>) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,13 +37,18 @@ export function CreateProjectButton({
     const description = formData.get('description') as string;
 
     try {
-      await onCreateProject({
+      const result = await onCreateProject({
         title: sanitizeInput(title),
         description: sanitizeInput(description),
       });
-      setOpen(false);
+
+      if (result.error) {
+        setError(result.error);
+      } else {
+        setOpen(false);
+      }
     } catch (err) {
-      setError('Failed to create project');
+      setError('Unexpected error occurred');
       console.error('Project creation error:', err);
     } finally {
       setLoading(false);
@@ -108,4 +118,6 @@ export function CreateProjectButton({
       </Dialog.Portal>
     </Dialog.Root>
   );
-}
+};
+
+export default CreateProjectButton;
