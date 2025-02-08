@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es5", "dom"],
+    "types": ["cypress", "node"],
+    "moduleResolution": "node",
+    "strict": true,
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": [
+    "cypress/**/*.ts",
+    "cypress/**/*.js",
+    "cypress/**/*.d.ts",
+    "cypress/eslint.config.js"
+  ]
+}
