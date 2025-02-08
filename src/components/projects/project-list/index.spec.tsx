@@ -10,7 +10,7 @@ describe('ProjectList', () => {
       description: 'Description 1',
       status: 'active' as const,
       tasksCount: 3,
-      updatedAt: '2025-02-05T12:00:00.000Z',
+      updatedAt: new Date('2025-02-05T12:00:00.000Z'),
     },
     {
       id: '2',
@@ -18,7 +18,7 @@ describe('ProjectList', () => {
       description: 'Description 2',
       status: 'completed' as const,
       tasksCount: 1,
-      updatedAt: '2025-02-05T12:00:00.000Z',
+      updatedAt: new Date('2025-02-05T12:00:00.000Z'),
     },
   ];
 
