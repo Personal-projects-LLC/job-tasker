@@ -2,7 +2,7 @@
 
 ## 📊 Overall Progress
 
-- Phase 1: In Progress 🔄 [35%]
+- Phase 1: In Progress 🔄 [40%]
 - Phase 2: Not Started 🔄 [0%]
 - Phase 3: Not Started 🔄 [0%]
 - Phase 4: Not Started 🔄 [0%]
@@ -12,7 +12,7 @@
 
 ### Phase 1: Basic Functionality (MVP) - Q1 2025
 
-#### 1.1 Project Setup [40%]
+#### 1.1 Project Setup [45%]
 
 - [x] Repository creation
   - [x] Basic directory structure created
@@ -35,6 +35,7 @@
     - [x] Server actions implementation
     - [x] Form validation with Zod
     - [x] Loading states and error handling
+    - [x] Project editing functionality
     - [ ] Project creation with user validation
   - [ ] Tasks system setup
     - [ ] Task model in Prisma schema
@@ -66,11 +67,11 @@
 
 ## 📈 Statistics
 
-- **Completed Tasks**: 31
+- **Completed Tasks**: 32
 - **In Progress**: 1
 - **Not Started**: 3
 - **Total Tasks**: 56
-- **Completion Rate**: 45%
+- **Completion Rate**: 50%
 
 ## 🔄 Next Steps
 
@@ -81,6 +82,12 @@
 
 ## 📝 Latest Updates
 
+- Added project editing functionality:
+  - Created EditProjectDialog component with form validation
+  - Added server action for project updates
+  - Integrated edit capability in project cards
+  - Added status update functionality
+  - Implemented optimistic updates
 - Added NextAuth.js integration:
   - Configured basic authentication setup
   - Added authentication pages (signin and error)
@@ -131,6 +138,7 @@
    - ProjectList: Grid layout for projects
    - CreateProjectButton: Modal form for new projects
    - DeleteProjectDialog: Confirmation dialog for deletion
+   - EditProjectDialog: Form for project updates
 
 2. Testing
    - Unit tests for all components

@@ -3,16 +3,12 @@
 import Button from '@/components/button';
 import Link from 'next/link';
 import DeleteProjectDialog from '../delete-project-dialog';
-import { ServerActionResponse } from '@/types/project';
+import EditProjectDialog from '../edit-project-dialog';
+import { Project, UpdateData, ServerActionResponse } from '@/types/project';
 
-interface ProjectCardProps {
-  readonly id: string;
-  readonly title: string;
-  readonly description: string;
-  readonly status: 'active' | 'completed' | 'archived';
-  readonly tasksCount: number;
-  readonly updatedAt: Date;
+interface ProjectCardProps extends Project {
   readonly onDelete: (id: string) => Promise<ServerActionResponse<boolean>>;
+  readonly onUpdate: (data: UpdateData) => Promise<void>;
 }
 
 const statusColors = {
@@ -29,6 +25,7 @@ const ProjectCard = ({
   tasksCount,
   updatedAt,
   onDelete,
+  onUpdate,
 }: ProjectCardProps) => {
   const date = updatedAt.toLocaleDateString('en-US', {
     month: 'short',
@@ -55,9 +52,18 @@ const ProjectCard = ({
         <span className="text-sm text-muted-foreground">Updated {date}</span>
       </div>
       <div className="flex items-center justify-end gap-2">
-        <Link href={`/projects/${id}/edit`}>
-          <Button variant="ghost">Edit</Button>
-        </Link>
+        <EditProjectDialog
+          project={{
+            id,
+            title,
+            description,
+            status,
+            tasksCount,
+            updatedAt,
+          }}
+          onUpdate={onUpdate}
+          trigger={<Button variant="ghost">Edit</Button>}
+        />
         <DeleteProjectDialog
           projectId={id}
           projectTitle={title}
