@@ -2,7 +2,7 @@
 
 ## 📊 Overall Progress
 
-- Phase 1: In Progress 🔄 [50%]
+- Phase 1: In Progress 🔄 [60%]
 - Phase 2: Not Started 🔄 [0%]
 - Phase 3: Not Started 🔄 [0%]
 - Phase 4: Not Started 🔄 [0%]
@@ -12,7 +12,7 @@
 
 ### Phase 1: Basic Functionality (MVP) - Q1 2025
 
-#### 1.1 Project Setup [60%]
+#### 1.1 Project Setup [70%]
 
 - [x] Repository creation
   - [x] Basic directory structure created
@@ -64,25 +64,43 @@
     - [x] Session provider setup
     - [x] Protected routes implementation
     - [x] Auth middleware configuration
+- [ ] Architecture refactoring
+  - [ ] Create layered architecture
+    - [ ] Services layer for business logic
+    - [ ] Repositories layer for data access
+    - [ ] Hooks layer for shared logic
+    - [ ] Validation layer
+  - [ ] Separate concerns
+    - [ ] Move business logic from server actions
+    - [ ] Extract data access logic
+    - [ ] Isolate validation rules
+  - [ ] Improve code organization
+    - [ ] Standardize file structure
+    - [ ] Implement consistent exports
+    - [ ] Follow project style guide
 - [ ] CI/CD pipeline
 - [ ] Base architecture
 
 ## 📈 Statistics
 
 - **Completed Tasks**: 42
-- **In Progress**: 0
-- **Not Started**: 3
-- **Total Tasks**: 56
-- **Completion Rate**: 75%
+- **In Progress**: 1
+- **Not Started**: 4
+- **Total Tasks**: 60
+- **Completion Rate**: 70%
 
 ## 🔄 Next Steps
 
-1.  Configure GitHub OAuth ⏳
-2.  Setup CI/CD pipeline ⏳
-3.  Design base architecture ⏳
+1. Implement layered architecture ⏳
+2. Configure GitHub OAuth ⏳
+3. Setup CI/CD pipeline ⏳
 
 ## 📝 Latest Updates
 
+- Started architecture refactoring:
+  - Planning layered architecture
+  - Preparing to separate concerns
+  - Organizing code structure
 - Added task management system:
   - Created Task model and migrations
   - Implemented task creation and management
@@ -94,28 +112,23 @@
   - Added task status workflow
 - Added NextAuth.js integration:
   - Configured basic authentication setup
-  - Added authentication pages (signin and error)
-  - Setup protected routes with middleware
-  - Integrated with Prisma database
-- Added project editing functionality:
-  - Created EditProjectDialog component with form validation
-  - Added server action for project updates
-  - Integrated edit capability in project cards
-  - Added status update functionality
-  - Implemented optimistic updates
+  - Added authentication pages
+  - Setup protected routes
+  - Integrated with Prisma
 
 ## ⚠️ Current Challenges
 
-1. Authentication
+1. Architecture Refactoring
 
+   - Design clean layer separation
+   - Maintain backward compatibility
+   - Ensure proper dependency injection
+   - Implement proper error handling
+
+2. Authentication
    - Configure GitHub OAuth
    - Set up OAuth callback handling
    - Implement session refresh
-
-2. Project Architecture
-   - Design scalable folder structure
-   - Implement better error handling
-   - Add comprehensive testing
 
 ## 🔧 Technical Details
 
