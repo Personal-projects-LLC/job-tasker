@@ -1,11 +1,12 @@
 import prisma from '@/lib/prisma';
-import { BaseRepository } from './base.repository';
-import { Project, CreateProjectData, UpdateProjectData } from '@/types';
-import { CreateProjectParams } from './types';
-
-interface ProjectRepositoryParams {
-  userId?: string;
-}
+import {
+  BaseRepository,
+  CreateProjectParams,
+  ProjectRepositoryParams,
+  Project,
+  CreateProjectData,
+  UpdateProjectData,
+} from '@/types';
 
 const projectRepository: BaseRepository<
   Project,
@@ -93,4 +94,4 @@ const projectRepository: BaseRepository<
   },
 };
 
-export default projectRepository;
+export { projectRepository };

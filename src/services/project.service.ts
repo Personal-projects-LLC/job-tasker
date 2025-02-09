@@ -1,7 +1,8 @@
 import { auth } from '@/auth';
-import { BaseService } from './base.service';
-import { projectRepository } from '@/repositories';
+import { projectRepository } from '@/repositories/project.repository';
+
 import {
+  BaseService,
   Project,
   CreateProjectData,
   UpdateProjectData,

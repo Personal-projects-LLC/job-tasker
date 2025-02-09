@@ -1,12 +1,11 @@
 import prisma from '@/lib/prisma';
-import { BaseRepository } from './base.repository';
-import { Task, CreateTaskData, UpdateTaskData } from '@/types';
-
-interface TaskRepositoryParams {
-  projectId?: string;
-  createdById?: string;
-  assignedToId?: string;
-}
+import {
+  BaseRepository,
+  Task,
+  TaskRepositoryParams,
+  CreateTaskData,
+  UpdateTaskData,
+} from '@/types';
 
 const taskRepository: BaseRepository<Task, CreateTaskData, UpdateTaskData> = {
   findById: async (id: string) => {
@@ -98,4 +97,4 @@ const taskRepository: BaseRepository<Task, CreateTaskData, UpdateTaskData> = {
   },
 };
 
-export default taskRepository;
+export { taskRepository };

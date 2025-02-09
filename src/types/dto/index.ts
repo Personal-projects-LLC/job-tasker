@@ -5,6 +5,10 @@ export interface CreateProjectData {
   description: string;
 }
 
+export interface CreateProjectParams extends CreateProjectData {
+  userId: string;
+}
+
 export interface UpdateProjectData {
   id: string;
   title?: string;
@@ -19,6 +23,10 @@ export interface CreateTaskData {
   dueDate?: string;
   projectId: string;
   assignedToId?: string;
+}
+
+export interface CreateTaskParams extends CreateTaskData {
+  createdById: string;
 }
 
 export interface UpdateTaskData {

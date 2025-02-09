@@ -1,15 +1,18 @@
 'use client';
 
-import { Task } from '@/types/task';
-import TaskCard from '../task-card';
 import { useState } from 'react';
+import { Task } from '@/types/models/task';
+import TaskCard from '../task-card';
+import {
+  SortKey,
+  TaskListProps,
+  TaskSortOrders,
+} from '@/types/components/task-list';
 
-interface TaskListProps {
-  tasks: Task[];
-  onTaskStatusChange: (taskId: string, status: Task['status']) => Promise<void>;
-}
-
-type SortKey = 'priority' | 'status' | 'dueDate' | 'createdAt';
+const sortOrders: TaskSortOrders = {
+  priority: { urgent: 0, high: 1, medium: 2, low: 3 },
+  status: { todo: 0, in_progress: 1, done: 2, cancelled: 3 },
+};
 
 const TaskList = ({
   tasks: initialTasks,
@@ -23,22 +26,17 @@ const TaskList = ({
     const sorted = [...tasks].sort((a, b) => {
       switch (key) {
         case 'priority': {
-          const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3 };
           return (
-            priorityOrder[a.priority as keyof typeof priorityOrder] -
-            priorityOrder[b.priority as keyof typeof priorityOrder]
+            sortOrders.priority[
+              a.priority as keyof typeof sortOrders.priority
+            ] -
+            sortOrders.priority[b.priority as keyof typeof sortOrders.priority]
           );
         }
         case 'status': {
-          const statusOrder = {
-            todo: 0,
-            in_progress: 1,
-            done: 2,
-            cancelled: 3,
-          };
           return (
-            statusOrder[a.status as keyof typeof statusOrder] -
-            statusOrder[b.status as keyof typeof statusOrder]
+            sortOrders.status[a.status as keyof typeof sortOrders.status] -
+            sortOrders.status[b.status as keyof typeof sortOrders.status]
           );
         }
         case 'dueDate': {
@@ -63,7 +61,6 @@ const TaskList = ({
     status: Task['status']
   ) => {
     await onTaskStatusChange(taskId, status);
-    // После успешного обновления статуса обновляем сортировку
     if (sortBy === 'status') {
       sortTasks('status');
     }
