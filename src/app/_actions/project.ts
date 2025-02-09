@@ -134,4 +134,29 @@ const updateProject = async (
   }
 };
 
-export { createProject, deleteProject, updateProject };
+const getProjects = async (): Promise<ServerActionResponse<Project[]>> => {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return { error: 'Not authenticated' };
+    }
+
+    const projects = await prisma.project.findMany({
+      where: {
+        userId: session.user.id,
+      },
+      orderBy: {
+        updatedAt: 'desc',
+      },
+    });
+
+    return { data: projects };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { error: error.message };
+    }
+    return { error: 'Failed to fetch projects' };
+  }
+};
+
+export { createProject, deleteProject, updateProject, getProjects };

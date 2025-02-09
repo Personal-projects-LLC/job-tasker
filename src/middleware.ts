@@ -1,9 +1,10 @@
 import { withAuth } from 'next-auth/middleware';
 
-// Защита всех маршрутов /projects/*
 export default withAuth({
   callbacks: {
-    authorized: ({ token }) => !!token,
+    authorized({ token }) {
+      return token?.id != null;
+    },
   },
   pages: {
     signIn: '/auth/signin',
