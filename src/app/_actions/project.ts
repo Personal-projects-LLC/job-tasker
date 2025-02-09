@@ -2,6 +2,7 @@
 
 import {
   CreateProjectData,
+  UpdateProjectData,
   Project,
   ServerActionResponse,
 } from '@/types/project';
@@ -9,12 +10,34 @@ import projectSchema from '@/lib/validations/project';
 import prisma from '@/lib/prisma';
 import { auth } from '@/auth';
 
-interface UpdateProjectData {
-  id: string;
-  title?: string;
-  description?: string;
-  status?: 'active' | 'completed' | 'archived';
-}
+const getProject = async (
+  id: string
+): Promise<ServerActionResponse<Project>> => {
+  try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return { error: 'Not authenticated' };
+    }
+
+    const project = await prisma.project.findUnique({
+      where: {
+        id,
+        userId: session.user.id,
+      },
+    });
+
+    if (!project) {
+      return { error: 'Project not found' };
+    }
+
+    return { data: project };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { error: error.message };
+    }
+    return { error: 'Failed to fetch project' };
+  }
+};
 
 const createProject = async (
   data: CreateProjectData
@@ -40,7 +63,9 @@ const createProject = async (
       },
     });
 
-    return { data: project };
+    return {
+      data: project,
+    };
   } catch (error) {
     if (error instanceof Error) {
       return { error: error.message };
@@ -116,7 +141,7 @@ const updateProject = async (
     }
 
     // Обновление проекта в базе данных
-    const updatedProject = await prisma.project.update({
+    const project = await prisma.project.update({
       where: { id: data.id },
       data: {
         ...(data.title && { title: data.title }),
@@ -125,7 +150,7 @@ const updateProject = async (
       },
     });
 
-    return { data: updatedProject };
+    return { data: project };
   } catch (error) {
     if (error instanceof Error) {
       return { error: error.message };
@@ -159,4 +184,4 @@ const getProjects = async (): Promise<ServerActionResponse<Project[]>> => {
   }
 };
 
-export { createProject, deleteProject, updateProject, getProjects };
+export { createProject, deleteProject, updateProject, getProject, getProjects };

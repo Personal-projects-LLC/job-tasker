@@ -2,7 +2,7 @@
 
 import { render, screen } from '@testing-library/react';
 import ProjectList from '.';
-import { UpdateData, ServerActionResponse } from '@/types/project';
+import { UpdateProjectData, ServerActionResponse } from '@/types/project';
 
 describe('ProjectList', () => {
   const mockProjects = [
@@ -12,7 +12,9 @@ describe('ProjectList', () => {
       description: 'Description 1',
       status: 'active' as const,
       tasksCount: 3,
-      updatedAt: new Date('2025-02-05T12:00:00.000Z'),
+      updatedAt: new Date(),
+      createdAt: new Date(),
+      userId: 'user-1',
     },
     {
       id: '2',
@@ -20,7 +22,9 @@ describe('ProjectList', () => {
       description: 'Description 2',
       status: 'completed' as const,
       tasksCount: 1,
-      updatedAt: new Date('2025-02-05T12:00:00.000Z'),
+      updatedAt: new Date(),
+      createdAt: new Date(),
+      userId: 'user-1',
     },
   ];
 
@@ -28,7 +32,7 @@ describe('ProjectList', () => {
     Promise<ServerActionResponse<boolean>>,
     [string]
   >();
-  const mockOnUpdate = jest.fn<Promise<void>, [UpdateData]>();
+  const mockOnUpdate = jest.fn<Promise<void>, [UpdateProjectData]>();
 
   mockOnDelete.mockResolvedValue({
     data: true,

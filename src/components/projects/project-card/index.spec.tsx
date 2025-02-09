@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ProjectCard from '.';
-import { ServerActionResponse, UpdateData } from '@/types/project';
+import { ServerActionResponse, UpdateProjectData } from '@/types/project';
 
 describe('ProjectCard', () => {
   const mockProject = {
@@ -16,7 +16,7 @@ describe('ProjectCard', () => {
     Promise<ServerActionResponse<boolean>>,
     [string]
   >();
-  const mockOnUpdate = jest.fn<Promise<void>, [UpdateData]>();
+  const mockOnUpdate = jest.fn<Promise<void>, [UpdateProjectData]>();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -28,6 +28,8 @@ describe('ProjectCard', () => {
         {...mockProject}
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
+        createdAt={new Date()}
+        userId="actual-user-id"
       />
     );
 
@@ -43,6 +45,8 @@ describe('ProjectCard', () => {
         {...mockProject}
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
+        createdAt={new Date()}
+        userId="actual-user-id"
       />
     );
 
@@ -56,6 +60,8 @@ describe('ProjectCard', () => {
         {...mockProject}
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
+        createdAt={new Date()}
+        userId="actual-user-id"
       />
     );
 
@@ -76,6 +82,8 @@ describe('ProjectCard', () => {
         status="completed"
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
+        createdAt={new Date()}
+        userId="actual-user-id"
       />
     );
     let statusIndicator = screen.getByText('completed').previousSibling;
@@ -87,6 +95,8 @@ describe('ProjectCard', () => {
         status="archived"
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
+        createdAt={new Date()}
+        userId="actual-user-id"
       />
     );
     statusIndicator = screen.getByText('archived').previousSibling;
@@ -100,6 +110,8 @@ describe('ProjectCard', () => {
         tasksCount={1}
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
+        createdAt={new Date()}
+        userId="actual-user-id"
       />
     );
     expect(screen.getByText('1 task')).toBeInTheDocument();
@@ -110,6 +122,8 @@ describe('ProjectCard', () => {
         tasksCount={0}
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
+        createdAt={new Date()}
+        userId="actual-user-id"
       />
     );
     expect(screen.getByText('0 tasks')).toBeInTheDocument();
