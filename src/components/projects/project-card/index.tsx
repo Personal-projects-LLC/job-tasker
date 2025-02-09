@@ -4,11 +4,15 @@ import Button from '@/components/button';
 import Link from 'next/link';
 import DeleteProjectDialog from '../delete-project-dialog';
 import EditProjectDialog from '../edit-project-dialog';
-import { Project, UpdateData, ServerActionResponse } from '@/types/project';
+import {
+  Project,
+  UpdateProjectData,
+  ServerActionResponse,
+} from '@/types/project';
 
 interface ProjectCardProps extends Project {
   readonly onDelete: (id: string) => Promise<ServerActionResponse<boolean>>;
-  readonly onUpdate: (data: UpdateData) => Promise<void>;
+  readonly onUpdate: (data: UpdateProjectData) => Promise<void>;
 }
 
 const statusColors = {
@@ -24,6 +28,8 @@ const ProjectCard = ({
   status,
   tasksCount,
   updatedAt,
+  createdAt,
+  userId,
   onDelete,
   onUpdate,
 }: ProjectCardProps) => {
@@ -60,6 +66,8 @@ const ProjectCard = ({
             status,
             tasksCount,
             updatedAt,
+            createdAt,
+            userId,
           }}
           onUpdate={onUpdate}
           trigger={<Button variant="ghost">Edit</Button>}
