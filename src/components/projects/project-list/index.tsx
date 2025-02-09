@@ -6,9 +6,19 @@ import { Project, ServerActionResponse } from '@/types/project';
 interface ProjectListProps {
   readonly projects?: Project[];
   readonly onDelete: (id: string) => Promise<ServerActionResponse<boolean>>;
+  readonly onUpdate: (data: {
+    id: string;
+    title?: string;
+    description?: string;
+    status?: 'active' | 'completed' | 'archived';
+  }) => Promise<void>;
 }
 
-const ProjectList = ({ projects = [], onDelete }: ProjectListProps) => {
+const ProjectList = ({
+  projects = [],
+  onDelete,
+  onUpdate,
+}: ProjectListProps) => {
   if (projects.length === 0) {
     return (
       <div className="text-center py-12">
@@ -23,7 +33,12 @@ const ProjectList = ({ projects = [], onDelete }: ProjectListProps) => {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {projects.map((project) => (
-        <ProjectCard key={project.id} {...project} onDelete={onDelete} />
+        <ProjectCard
+          key={project.id}
+          {...project}
+          onDelete={onDelete}
+          onUpdate={onUpdate}
+        />
       ))}
     </div>
   );

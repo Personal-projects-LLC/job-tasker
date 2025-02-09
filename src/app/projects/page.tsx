@@ -3,7 +3,11 @@
 import { useState } from 'react';
 import CreateProjectButton from '@/components/projects/create-project-button';
 import ProjectList from '@/components/projects/project-list';
-import { createProject, deleteProject } from '@/app/_actions/project';
+import {
+  createProject,
+  deleteProject,
+  updateProject,
+} from '@/app/_actions/project';
 import {
   CreateProjectData,
   Project,
@@ -23,6 +27,23 @@ const ProjectsPage = () => {
     return result;
   };
 
+  const handleUpdateProject = async (data: {
+    id: string;
+    title?: string;
+    description?: string;
+    status?: 'active' | 'completed' | 'archived';
+  }): Promise<void> => {
+    const result = await updateProject(data);
+    if (result.data) {
+      setProjects((prev: Project[]) =>
+        prev.map((p) => (p.id === result.data!.id ? result.data! : p))
+      );
+    }
+    if (result.error) {
+      throw new Error(result.error);
+    }
+  };
+
   const handleDeleteProject = async (
     id: string
   ): Promise<ServerActionResponse<boolean>> => {
@@ -39,7 +60,11 @@ const ProjectsPage = () => {
         <h1 className="text-2xl font-bold">Projects</h1>
         <CreateProjectButton onCreateProject={handleCreateProject} />
       </div>
-      <ProjectList projects={projects} onDelete={handleDeleteProject} />
+      <ProjectList
+        projects={projects}
+        onDelete={handleDeleteProject}
+        onUpdate={handleUpdateProject}
+      />
     </div>
   );
 };

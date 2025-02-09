@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import ProjectCard from '.';
+import { ServerActionResponse, UpdateData } from '@/types/project';
 
 describe('ProjectCard', () => {
   const mockProject = {
@@ -11,14 +12,24 @@ describe('ProjectCard', () => {
     updatedAt: new Date('2025-02-05T12:00:00.000Z'),
   };
 
-  const mockOnDelete = jest.fn().mockImplementation(() => Promise.resolve());
+  const mockOnDelete = jest.fn<
+    Promise<ServerActionResponse<boolean>>,
+    [string]
+  >();
+  const mockOnUpdate = jest.fn<Promise<void>, [UpdateData]>();
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   it('renders project information', () => {
-    render(<ProjectCard {...mockProject} onDelete={mockOnDelete} />);
+    render(
+      <ProjectCard
+        {...mockProject}
+        onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
+      />
+    );
 
     expect(screen.getByText(mockProject.title)).toBeInTheDocument();
     expect(screen.getByText(mockProject.description)).toBeInTheDocument();
@@ -27,14 +38,26 @@ describe('ProjectCard', () => {
   });
 
   it('displays correct status indicator', () => {
-    render(<ProjectCard {...mockProject} onDelete={mockOnDelete} />);
+    render(
+      <ProjectCard
+        {...mockProject}
+        onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
+      />
+    );
 
     const statusIndicator = screen.getByText('active').previousSibling;
     expect(statusIndicator).toHaveClass('bg-green-500');
   });
 
   it('links to project details and edit pages', () => {
-    render(<ProjectCard {...mockProject} onDelete={mockOnDelete} />);
+    render(
+      <ProjectCard
+        {...mockProject}
+        onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
+      />
+    );
 
     const titleLink = screen.getByText(mockProject.title).closest('a');
     const editButton = screen.getByText('Edit').closest('a');
@@ -52,13 +75,19 @@ describe('ProjectCard', () => {
         {...mockProject}
         status="completed"
         onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
       />
     );
     let statusIndicator = screen.getByText('completed').previousSibling;
     expect(statusIndicator).toHaveClass('bg-blue-500');
 
     rerender(
-      <ProjectCard {...mockProject} status="archived" onDelete={mockOnDelete} />
+      <ProjectCard
+        {...mockProject}
+        status="archived"
+        onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
+      />
     );
     statusIndicator = screen.getByText('archived').previousSibling;
     expect(statusIndicator).toHaveClass('bg-gray-500');
@@ -66,12 +95,22 @@ describe('ProjectCard', () => {
 
   it('displays correct task count text', () => {
     const { rerender } = render(
-      <ProjectCard {...mockProject} tasksCount={1} onDelete={mockOnDelete} />
+      <ProjectCard
+        {...mockProject}
+        tasksCount={1}
+        onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
+      />
     );
     expect(screen.getByText('1 task')).toBeInTheDocument();
 
     rerender(
-      <ProjectCard {...mockProject} tasksCount={0} onDelete={mockOnDelete} />
+      <ProjectCard
+        {...mockProject}
+        tasksCount={0}
+        onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
+      />
     );
     expect(screen.getByText('0 tasks')).toBeInTheDocument();
   });

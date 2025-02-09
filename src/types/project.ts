@@ -9,6 +9,13 @@ export interface Project {
   updatedAt: Date;
 }
 
+export interface UpdateData {
+  id: string;
+  title?: string;
+  description?: string;
+  status?: PrismaProjectStatus;
+}
+
 export interface CreateProjectData {
   title: string;
   description: string;

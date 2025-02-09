@@ -1,6 +1,8 @@
+// src/app/_actions/project.ts
+
 import { render, screen } from '@testing-library/react';
 import ProjectList from '.';
-import { ServerActionResponse } from '@/types/project';
+import { UpdateData, ServerActionResponse } from '@/types/project';
 
 describe('ProjectList', () => {
   const mockProjects = [
@@ -26,6 +28,7 @@ describe('ProjectList', () => {
     Promise<ServerActionResponse<boolean>>,
     [string]
   >();
+  const mockOnUpdate = jest.fn<Promise<void>, [UpdateData]>();
 
   mockOnDelete.mockResolvedValue({
     data: true,
@@ -37,7 +40,13 @@ describe('ProjectList', () => {
   });
 
   it('renders multiple projects', () => {
-    render(<ProjectList projects={mockProjects} onDelete={mockOnDelete} />);
+    render(
+      <ProjectList
+        projects={mockProjects}
+        onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
+      />
+    );
 
     expect(screen.getByText('Project 1')).toBeInTheDocument();
     expect(screen.getByText('Project 2')).toBeInTheDocument();
@@ -46,7 +55,13 @@ describe('ProjectList', () => {
   });
 
   it('displays empty state when no projects', () => {
-    render(<ProjectList projects={[]} onDelete={mockOnDelete} />);
+    render(
+      <ProjectList
+        projects={[]}
+        onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
+      />
+    );
 
     expect(screen.getByText(/No projects found/i)).toBeInTheDocument();
     expect(
@@ -55,14 +70,26 @@ describe('ProjectList', () => {
   });
 
   it('applies responsive grid classes', () => {
-    render(<ProjectList projects={mockProjects} onDelete={mockOnDelete} />);
+    render(
+      <ProjectList
+        projects={mockProjects}
+        onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
+      />
+    );
 
     const grid = screen.getByText('Project 1').closest('div')?.parentElement;
     expect(grid).toHaveClass('grid', 'sm:grid-cols-2', 'lg:grid-cols-3');
   });
 
   it('passes onDelete to ProjectCards', () => {
-    render(<ProjectList projects={mockProjects} onDelete={mockOnDelete} />);
+    render(
+      <ProjectList
+        projects={mockProjects}
+        onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
+      />
+    );
 
     const deleteButtons = screen.getAllByText('Delete');
     expect(deleteButtons).toHaveLength(mockProjects.length);
