@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import CreateProjectButton from '@/components/projects/create-project-button';
 import ProjectList from '@/components/projects/project-list';
 import {
   createProject,
   deleteProject,
   updateProject,
+  getProjects,
 } from '@/app/_actions/project';
 import {
   CreateProjectData,
@@ -15,7 +17,29 @@ import {
 } from '@/types/project';
 
 const ProjectsPage = () => {
+  const { status } = useSession();
   const [projects, setProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      void getProjects().then((result: ServerActionResponse<Project[]>) => {
+        if (result.data) {
+          setProjects(result.data);
+        }
+      });
+
+      setIsLoading(false);
+    }
+  }, [status]);
+
+  if (isLoading) {
+    return (
+      <div className="container py-6">
+        <div className="text-center">Loading...</div>
+      </div>
+    );
+  }
 
   const handleCreateProject = async (
     data: CreateProjectData
