@@ -5,21 +5,9 @@ import Link from 'next/link';
 import DeleteProjectDialog from '../delete-project-dialog';
 import EditProjectDialog from '../edit-project-dialog';
 import {
-  Project,
-  UpdateProjectData,
-  ServerActionResponse,
-} from '@/types/project';
-
-interface ProjectCardProps extends Project {
-  readonly onDelete: (id: string) => Promise<ServerActionResponse<boolean>>;
-  readonly onUpdate: (data: UpdateProjectData) => Promise<void>;
-}
-
-const statusColors = {
-  active: 'bg-green-500',
-  completed: 'bg-blue-500',
-  archived: 'bg-gray-500',
-} as const;
+  ProjectCardProps,
+  statusColors,
+} from '@/types/components/project-card';
 
 const ProjectCard = ({
   id,
@@ -33,7 +21,7 @@ const ProjectCard = ({
   onDelete,
   onUpdate,
 }: ProjectCardProps) => {
-  const date = updatedAt.toLocaleDateString('en-US', {
+  const date = new Date(updatedAt).toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',

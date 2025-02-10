@@ -4,12 +4,8 @@ import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import Button from '@/components/button';
 import { createTask } from '@/app/_actions/task';
-import { TaskPriority } from '@/types/task';
-
-interface CreateTaskButtonProps {
-  projectId: string;
-  onTaskCreated: () => void;
-}
+import { TaskPriority } from '@/types/models/task';
+import { CreateTaskButtonProps } from '@/types/components/create-task-button';
 
 const CreateTaskButton = ({
   projectId,
@@ -35,7 +31,7 @@ const CreateTaskButton = ({
         title,
         description,
         priority,
-        dueDate: dueDate || undefined,
+        dueDate: dueDate ? new Date(dueDate) : undefined,
         projectId,
       });
 

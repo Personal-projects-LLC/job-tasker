@@ -7,8 +7,8 @@ export interface Project {
   description: string;
   status: ProjectStatus;
   tasksCount: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   userId: string;
   tasks?: Task[];
 }

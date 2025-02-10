@@ -1,26 +1,15 @@
-export type TaskStatus = 'todo' | 'in_progress' | 'done' | 'cancelled';
+import { Task } from './models/task';
 
+export type TaskStatus = 'todo' | 'in_progress' | 'done' | 'cancelled';
 export type TaskPriority = 'low' | 'medium' | 'high' | 'urgent';
 
-export interface Task {
-  id: string;
-  title: string;
-  description: string;
-  status: TaskStatus;
-  priority: TaskPriority;
-  dueDate: string | null;
-  createdAt: string;
-  updatedAt: string;
-  projectId: string;
-  createdById: string;
-  assignedToId: string | null;
-}
+export type { Task };
 
 export interface CreateTaskData {
   title: string;
   description: string;
   priority: TaskPriority;
-  dueDate?: string;
+  dueDate?: Date | null;
   projectId: string;
   assignedToId?: string;
 }
@@ -31,6 +20,6 @@ export interface UpdateTaskData {
   description?: string;
   status?: TaskStatus;
   priority?: TaskPriority;
-  dueDate?: string | null;
+  dueDate?: Date | null;
   assignedToId?: string | null;
 }

@@ -1,11 +1,7 @@
 'use client';
 
-import { ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
-
-interface ProvidersProps {
-  readonly children: ReactNode;
-}
+import { ProvidersProps } from '@/types/components/providers';
 
 const Providers = ({ children }: ProvidersProps) => {
   return (

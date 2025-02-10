@@ -2,15 +2,8 @@
 
 import Button from '@/components/button';
 import * as Dialog from '@radix-ui/react-dialog';
-import { ReactNode, useState } from 'react';
-import { ServerActionResponse } from '@/types/project';
-
-interface DeleteProjectDialogProps {
-  readonly projectId: string;
-  readonly projectTitle: string;
-  readonly onDelete: (id: string) => Promise<ServerActionResponse<boolean>>;
-  readonly trigger: ReactNode;
-}
+import { useState } from 'react';
+import { DeleteProjectDialogProps } from '@/types/components/delete-project-dialog';
 
 const DeleteProjectDialog = ({
   projectId,

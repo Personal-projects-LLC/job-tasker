@@ -1,6 +1,4 @@
-interface SampleProps {
-  data: object; // или укажите более конкретный тип вместо пустого интерфейса
-}
+import { SampleProps } from '@/types/components/sample';
 
 const Sample = (data: SampleProps) => {
   return (

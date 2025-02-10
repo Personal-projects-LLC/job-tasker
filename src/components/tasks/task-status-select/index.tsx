@@ -1,20 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { TaskStatus } from '@/types/task';
-
-interface TaskStatusSelectProps {
-  status: TaskStatus;
-  onStatusChange: (status: TaskStatus) => Promise<void>;
-  disabled?: boolean;
-}
-
-const statusOptions: { value: TaskStatus; label: string; color: string }[] = [
-  { value: 'todo', label: 'Todo', color: 'bg-gray-500' },
-  { value: 'in_progress', label: 'In Progress', color: 'bg-blue-500' },
-  { value: 'done', label: 'Done', color: 'bg-green-500' },
-  { value: 'cancelled', label: 'Cancelled', color: 'bg-red-500' },
-];
+import { TaskStatus } from '@/types/models/task';
+import {
+  TaskStatusSelectProps,
+  statusOptions,
+} from '@/types/components/task-status-select';
 
 const TaskStatusSelect = ({
   status,

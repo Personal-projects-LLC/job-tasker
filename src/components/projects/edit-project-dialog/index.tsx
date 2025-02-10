@@ -3,18 +3,7 @@
 import Button from '@/components/button';
 import { FormEvent, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import type { Project } from '@/types/project';
-
-interface EditProjectDialogProps {
-  project: Project;
-  onUpdate: (data: {
-    id: string;
-    title?: string;
-    description?: string;
-    status?: 'active' | 'completed' | 'archived';
-  }) => Promise<void>;
-  trigger: React.ReactNode;
-}
+import { EditProjectDialogProps } from '@/types/components/edit-project-dialog';
 
 const EditProjectDialog = ({
   project,
