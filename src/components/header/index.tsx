@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Container from '../container';
 import Button from '../button';
+import ThemeToggle from '../theme-toggle';
 import { usePathname } from 'next/navigation';
 
 const navigation = [
@@ -40,9 +41,7 @@ const Header = () => {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon">
-              {/* Theme toggle will be added here */}
-            </Button>
+            <ThemeToggle />
             <Button variant="secondary" asChild>
               <Link href="/projects/new">New Project</Link>
             </Button>
