@@ -23,7 +23,6 @@ export interface UpdateProjectData {
 export interface CreateProjectData {
   title: string;
   description: string;
-  user: { id: string };
 }
 
 export interface ServerActionResponse<T> {

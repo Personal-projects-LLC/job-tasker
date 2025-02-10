@@ -12,6 +12,10 @@ const config = {
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+        card: {
+          DEFAULT: 'var(--card)',
+          foreground: 'var(--card-foreground)',
+        },
         primary: {
           DEFAULT: 'var(--primary)',
           foreground: 'var(--primary-foreground)',
@@ -32,8 +36,31 @@ const config = {
           DEFAULT: 'var(--accent)',
           foreground: 'var(--accent-foreground)',
         },
+        border: 'var(--border)',
+        input: 'var(--input)',
+        ring: 'var(--ring)',
+        success: {
+          DEFAULT: 'var(--success)',
+          foreground: 'var(--success-foreground)',
+        },
+        warning: {
+          DEFAULT: 'var(--warning)',
+          foreground: 'var(--warning-foreground)',
+        },
+        error: {
+          DEFAULT: 'var(--error)',
+          foreground: 'var(--error-foreground)',
+        },
+        info: {
+          DEFAULT: 'var(--info)',
+          foreground: 'var(--info-foreground)',
+        },
       },
     },
+  },
+  // В v4 используем variant для кастомных тем
+  variants: {
+    themes: ['dark', 'light'],
   },
   plugins: [],
 } as Config;

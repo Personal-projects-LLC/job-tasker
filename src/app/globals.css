@@ -1,28 +1,161 @@
 @import 'tailwindcss';
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+@theme {
+  --radius: 0.5rem;
+  --background: white;
+  --foreground: #111827;
+  --card: #f9fafb;
+  --card-foreground: #111827;
+  --primary: #3182ce;
+  --primary-foreground: white;
+  --secondary: #4a5568;
+  --secondary-foreground: white;
+  --accent: #ed64a6;
+  --accent-foreground: white;
+  --destructive: #f56565;
+  --destructive-foreground: white;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #3182ce;
 
-:root {
-  --background: #ffffff;
-  --foreground: #000000;
-  --primary: #000000;
-  --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #000000;
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #f1f5f9;
-  --accent-foreground: #000000;
+  /* Status colors */
+  --success: #48bb78;
+  --success-foreground: white;
+  --warning: #ecc94b;
+  --warning-foreground: #744210;
+  --error: #f56565;
+  --error-foreground: white;
+  --info: #4299e1;
+  --info-foreground: white;
 }
 
 [data-theme='dark'] {
-  --background: #000000;
-  --foreground: #ffffff;
-  /* Добавьте остальные переменные для темной темы */
+  --background: #111827;
+  --foreground: #f9fafb;
+  --card: #1f2937;
+  --card-foreground: #f9fafb;
+  --primary: #4299e1;
+  --primary-foreground: white;
+  --secondary: #9ca3af;
+  --secondary-foreground: #1f2937;
+  --accent: #ed64a6;
+  --accent-foreground: white;
+  --destructive: #f56565;
+  --destructive-foreground: white;
+  --muted: #374151;
+  --muted-foreground: #9ca3af;
+  --border: #374151;
+  --input: #374151;
+  --ring: #4299e1;
+
+  /* Status colors - dark theme */
+  --success: #68d391;
+  --success-foreground: #1a4731;
+  --warning: #f6e05e;
+  --warning-foreground: #744210;
+  --error: #fc8181;
+  --error-foreground: #742a2a;
+  --info: #63b3ed;
+  --info-foreground: #2a4365;
+}
+
+@layer components {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--foreground);
+  }
+
+  .gradient-text {
+    background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(
+      to right,
+      var(--primary),
+      var(--accent),
+      var(--primary)
+    );
+  }
+
+  .hover-card {
+    transition: all 0.2s ease-in-out;
+  }
+  .hover-card:hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in forwards;
+    animation-delay: var(--animate-delay, 0);
+  }
+
+  /* Status badges */
+  .status-badge {
+    @apply px-2 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1;
+  }
+
+  .status-badge.success {
+    background-color: var(--success);
+    color: var(--success-foreground);
+  }
+
+  .status-badge.warning {
+    background-color: var(--warning);
+    color: var(--warning-foreground);
+  }
+
+  .status-badge.error {
+    background-color: var(--error);
+    color: var(--error-foreground);
+  }
+
+  .status-badge.info {
+    background-color: var(--info);
+    color: var(--info-foreground);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-20px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -10,10 +10,24 @@ export interface ProjectCardProps extends Project {
   }) => Promise<void>;
 }
 
+// Обновленные цвета статусов, используя новые переменные темы
 export const statusColors = {
-  active: 'bg-green-500',
-  completed: 'bg-blue-500',
-  archived: 'bg-gray-500',
+  active: 'bg-success',
+  completed: 'bg-info',
+  archived: 'bg-secondary',
 } as const;
 
-export type StatusColor = typeof statusColors;
+export const statusBadgeClasses = {
+  active: 'status-badge success',
+  completed: 'status-badge info',
+  archived: 'status-badge secondary',
+} as const;
+
+export type ProjectStatus = keyof typeof statusColors;
+export type StatusColor = (typeof statusColors)[ProjectStatus];
+
+export const statusLabels: Record<ProjectStatus, string> = {
+  active: 'Active',
+  completed: 'Completed',
+  archived: 'Archived',
+} as const;

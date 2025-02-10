@@ -4,6 +4,7 @@ import Button from '@/components/button';
 import { FormEvent, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { CreateProjectButtonProps } from '@/types/components/create-project-button';
+import { useSession } from 'next-auth/react';
 
 const sanitizeInput = (input: string): string => {
   return input.replace(/</g, '&lt;').replace(/>/g, '&gt;').trim();
@@ -12,6 +13,7 @@ const sanitizeInput = (input: string): string => {
 const CreateProjectButton = ({
   onCreateProject,
 }: Readonly<CreateProjectButtonProps>) => {
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,6 +23,12 @@ const CreateProjectButton = ({
     setLoading(true);
     setError(null);
 
+    if (!session?.user?.id) {
+      setError('User not authenticated');
+      setLoading(false);
+      return;
+    }
+
     const formData = new FormData(event.currentTarget);
     const title = formData.get('title') as string;
     const description = formData.get('description') as string;
@@ -29,7 +37,6 @@ const CreateProjectButton = ({
       const result = await onCreateProject({
         title: sanitizeInput(title),
         description: sanitizeInput(description),
-        user: { id: 'actual-user-id' }, // Replace with actual user ID
       });
 
       if (result.error) {
@@ -56,7 +63,10 @@ const CreateProjectButton = ({
           <Dialog.Title className="text-lg font-semibold mb-4">
             Create New Project
           </Dialog.Title>
-          <form onSubmit={() => handleSubmit} className="space-y-4">
+          <form
+            onSubmit={(event) => void handleSubmit(event)}
+            className="space-y-4"
+          >
             <div>
               <label
                 htmlFor="title"
