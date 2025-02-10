@@ -1,18 +1,6 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
-
-interface GitHubIssue {
-  title: string;
-  number: number;
-}
-
-interface SonarQubeWebhookBody {
-  issue?: {
-    status?: string;
-    resolution?: string;
-    message?: string;
-  };
-}
+import { SonarQubeWebhookBody, GitHubIssue } from '@/types/api/sonarqube';
 
 export async function POST(request: Request) {
   try {

@@ -15,12 +15,7 @@ const taskRepository: BaseRepository<Task, CreateTaskData, UpdateTaskData> = {
 
     if (!task) return null;
 
-    return {
-      ...task,
-      createdAt: task.createdAt.toISOString(),
-      updatedAt: task.updatedAt.toISOString(),
-      dueDate: task.dueDate?.toISOString() ?? null,
-    };
+    return task;
   },
 
   findMany: async (params?: TaskRepositoryParams) => {
@@ -35,12 +30,7 @@ const taskRepository: BaseRepository<Task, CreateTaskData, UpdateTaskData> = {
       },
     });
 
-    return tasks.map((task) => ({
-      ...task,
-      createdAt: task.createdAt.toISOString(),
-      updatedAt: task.updatedAt.toISOString(),
-      dueDate: task.dueDate?.toISOString() ?? null,
-    }));
+    return tasks;
   },
 
   create: async (data: CreateTaskData & { createdById: string }) => {
@@ -49,19 +39,14 @@ const taskRepository: BaseRepository<Task, CreateTaskData, UpdateTaskData> = {
         title: data.title,
         description: data.description,
         priority: data.priority,
-        dueDate: data.dueDate ? new Date(data.dueDate) : null,
+        dueDate: data.dueDate,
         projectId: data.projectId,
         createdById: data.createdById,
         assignedToId: data.assignedToId,
       },
     });
 
-    return {
-      ...task,
-      createdAt: task.createdAt.toISOString(),
-      updatedAt: task.updatedAt.toISOString(),
-      dueDate: task.dueDate?.toISOString() ?? null,
-    };
+    return task;
   },
 
   update: async (id: string, data: UpdateTaskData) => {
@@ -73,7 +58,7 @@ const taskRepository: BaseRepository<Task, CreateTaskData, UpdateTaskData> = {
         ...(data.status && { status: data.status }),
         ...(data.priority && { priority: data.priority }),
         ...(data.dueDate !== undefined && {
-          dueDate: data.dueDate ? new Date(data.dueDate) : null,
+          dueDate: data.dueDate,
         }),
         ...(data.assignedToId !== undefined && {
           assignedToId: data.assignedToId,
@@ -81,12 +66,7 @@ const taskRepository: BaseRepository<Task, CreateTaskData, UpdateTaskData> = {
       },
     });
 
-    return {
-      ...task,
-      createdAt: task.createdAt.toISOString(),
-      updatedAt: task.updatedAt.toISOString(),
-      dueDate: task.dueDate?.toISOString() ?? null,
-    };
+    return task;
   },
 
   delete: async (id: string) => {

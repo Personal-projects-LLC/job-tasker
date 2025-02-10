@@ -1,18 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { Task } from '@/types/models/task';
 import TaskCard from '../task-card';
+import { Task } from '@/types/models/task';
 import {
   SortKey,
   TaskListProps,
-  TaskSortOrders,
+  sortOrders,
 } from '@/types/components/task-list';
-
-const sortOrders: TaskSortOrders = {
-  priority: { urgent: 0, high: 1, medium: 2, low: 3 },
-  status: { todo: 0, in_progress: 1, done: 2, cancelled: 3 },
-};
 
 const TaskList = ({
   tasks: initialTasks,

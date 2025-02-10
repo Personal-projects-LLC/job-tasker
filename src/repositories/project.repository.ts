@@ -21,11 +21,7 @@ const projectRepository: BaseRepository<
 
     if (!project) return null;
 
-    return {
-      ...project,
-      createdAt: project.createdAt.toISOString(),
-      updatedAt: project.updatedAt.toISOString(),
-    };
+    return project;
   },
 
   findMany: async (params?: ProjectRepositoryParams) => {
@@ -38,11 +34,7 @@ const projectRepository: BaseRepository<
       },
     });
 
-    return projects.map((project) => ({
-      ...project,
-      createdAt: project.createdAt.toISOString(),
-      updatedAt: project.updatedAt.toISOString(),
-    }));
+    return projects;
   },
 
   create: async (data: {
@@ -62,11 +54,7 @@ const projectRepository: BaseRepository<
       },
     });
 
-    return {
-      ...project,
-      createdAt: project.createdAt.toISOString(),
-      updatedAt: project.updatedAt.toISOString(),
-    };
+    return project;
   },
 
   update: async (id: string, data: UpdateProjectData) => {
@@ -79,11 +67,7 @@ const projectRepository: BaseRepository<
       },
     });
 
-    return {
-      ...project,
-      createdAt: project.createdAt.toISOString(),
-      updatedAt: project.updatedAt.toISOString(),
-    };
+    return project;
   },
 
   delete: async (id: string) => {

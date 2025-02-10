@@ -1,12 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-
-interface ErrorComponentProps {
-  // Define an interface for the props
-  readonly error: Error & { digest?: string }; // Mark 'error' as readonly
-  readonly reset: () => void; // Mark 'reset' as readonly
-}
+import { ErrorComponentProps } from '@/types/components/error';
 
 const ErrorComponent = ({ error, reset }: ErrorComponentProps) => {
   useEffect(() => {

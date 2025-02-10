@@ -1,19 +1,9 @@
 'use client';
 
-import { Task } from '@/types/task';
-import TaskStatusSelect from '../task-status-select';
 import { formatDistanceToNow } from 'date-fns';
-
-interface TaskCardProps extends Task {
-  onStatusChange: (taskId: string, status: Task['status']) => Promise<void>;
-}
-
-const priorityColors = {
-  low: 'bg-gray-500',
-  medium: 'bg-blue-500',
-  high: 'bg-yellow-500',
-  urgent: 'bg-red-500',
-} as const;
+import TaskStatusSelect from '../task-status-select';
+import { Task } from '@/types/models/task';
+import { TaskCardProps, priorityColors } from '@/types/components/task-card';
 
 const TaskCard = ({
   id,

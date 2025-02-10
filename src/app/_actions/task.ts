@@ -31,15 +31,7 @@ const createTask = async (
       },
     });
 
-    // Преобразуем даты в строки для соответствия типу Task
-    return {
-      data: {
-        ...task,
-        dueDate: task.dueDate?.toISOString() ?? null,
-        createdAt: task.createdAt.toISOString(),
-        updatedAt: task.updatedAt.toISOString(),
-      },
-    };
+    return { data: task };
   } catch (error) {
     if (error instanceof Error) {
       return { error: error.message };
@@ -87,15 +79,7 @@ const updateTask = async (
       },
     });
 
-    // Преобразуем даты в строки
-    return {
-      data: {
-        ...task,
-        dueDate: task.dueDate?.toISOString() ?? null,
-        createdAt: task.createdAt.toISOString(),
-        updatedAt: task.updatedAt.toISOString(),
-      },
-    };
+    return { data: task };
   } catch (error) {
     if (error instanceof Error) {
       return { error: error.message };
@@ -186,15 +170,7 @@ const getProjectTasks = async (
       ],
     });
 
-    // Преобразуем даты в строки для каждой задачи
-    return {
-      data: tasks.map((task) => ({
-        ...task,
-        dueDate: task.dueDate?.toISOString() ?? null,
-        createdAt: task.createdAt.toISOString(),
-        updatedAt: task.updatedAt.toISOString(),
-      })),
-    };
+    return { data: tasks };
   } catch (error) {
     if (error instanceof Error) {
       return { error: error.message };

@@ -8,10 +8,7 @@ import { getProjectTasks, updateTask } from '@/app/_actions/task';
 import { getProject } from '@/app/_actions/project';
 import TaskList from '@/components/tasks/task-list';
 import CreateTaskButton from '@/components/tasks/create-task-button';
-
-interface ProjectContentProps {
-  id: string;
-}
+import { ProjectContentProps } from '@/types/components/project-content';
 
 const ProjectContent = ({ id }: ProjectContentProps) => {
   const { status } = useSession();

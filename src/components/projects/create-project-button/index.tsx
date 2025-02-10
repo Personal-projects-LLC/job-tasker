@@ -3,18 +3,7 @@
 import Button from '@/components/button';
 import { FormEvent, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-
-import {
-  CreateProjectData,
-  Project,
-  ServerActionResponse,
-} from '@/types/project';
-
-interface CreateProjectButtonProps {
-  onCreateProject: (
-    data: CreateProjectData
-  ) => Promise<ServerActionResponse<Project>>;
-}
+import { CreateProjectButtonProps } from '@/types/components/create-project-button';
 
 const sanitizeInput = (input: string): string => {
   return input.replace(/</g, '&lt;').replace(/>/g, '&gt;').trim();

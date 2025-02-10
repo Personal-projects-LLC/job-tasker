@@ -1,18 +1,7 @@
 'use client';
 
 import ProjectCard from '../project-card';
-import { Project, ServerActionResponse } from '@/types/project';
-
-interface ProjectListProps {
-  readonly projects?: Project[];
-  readonly onDelete: (id: string) => Promise<ServerActionResponse<boolean>>;
-  readonly onUpdate: (data: {
-    id: string;
-    title?: string;
-    description?: string;
-    status?: 'active' | 'completed' | 'archived';
-  }) => Promise<void>;
-}
+import { ProjectListProps } from '@/types/components/project-list';
 
 const ProjectList = ({
   projects = [],

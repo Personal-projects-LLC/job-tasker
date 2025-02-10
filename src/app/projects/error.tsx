@@ -5,12 +5,7 @@ import Container from '@/components/container';
 import Button from '@/components/button';
 import { useEffect } from 'react';
 import Link from 'next/link';
-
-interface ProjectsErrorProps {
-  // Define an interface for the props
-  readonly error: Error & { digest?: string }; // Mark 'error' as readonly
-  readonly reset: () => void; // Mark 'reset' as readonly
-}
+import { ProjectsErrorProps } from '@/types/components/projects-error';
 
 const ProjectsError = ({ error, reset }: ProjectsErrorProps) => {
   useEffect(() => {
