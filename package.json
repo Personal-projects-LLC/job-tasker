@@ -8,6 +8,8 @@
     "start": "next start -p 3000",
     "dev": "next dev",
     "build": "npx prisma generate && next build",
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "format": "prettier --write 'src/**/*.{js,ts,json,css}'",
     "prettier": "prettier --write .",
     "lint": "eslint src/ --fix",
