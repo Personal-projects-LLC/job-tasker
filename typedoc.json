@@ -1,0 +1,32 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src"],
+  "entryPointStrategy": "expand",
+  "out": "docs/api",
+  "plugin": ["typedoc-plugin-markdown"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/node_modules/**"
+  ],
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true,
+  "includeVersion": true,
+  "categorizeByGroup": true,
+  "categoryOrder": ["Services", "Repositories", "Components", "Types", "*"],
+  "name": "Job Tasker API Documentation",
+  "readme": "none",
+  "githubPages": false,
+  "cleanOutputDir": true,
+  "hideGenerator": true,
+  "disableSources": true,
+  "groupOrder": ["Services", "Repositories", "Components", "Types", "*"],
+  "sort": ["source-order"],
+  "validation": {
+    "invalidLink": true,
+    "notExported": true
+  }
+}
