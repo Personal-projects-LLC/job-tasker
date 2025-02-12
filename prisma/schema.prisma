@@ -1,121 +1,121 @@
 generator client {
-  provider = "prisma-client-js"
+provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+provider = "postgresql"
+url      = env("DATABASE_URI")
 }
 
 enum ProjectStatus {
-  active
-  completed
-  archived
+active
+completed
+archived
 }
 
 enum TaskStatus {
-  todo
-  in_progress
-  done
-  cancelled
+todo
+in_progress
+done
+cancelled
 }
 
 enum TaskPriority {
-  low
-  medium
-  high
-  urgent
+low
+medium
+high
+urgent
 }
 
 model Project {
-  id          String        @id @default(uuid())
-  title       String
-  description String
-  status      ProjectStatus @default(active)
-  tasksCount  Int          @default(0)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  userId      String
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tasks       Task[]
+id          String        @id @default(uuid())
+title       String
+description String
+status      ProjectStatus @default(active)
+tasksCount  Int          @default(0)
+createdAt   DateTime     @default(now())
+updatedAt   DateTime     @updatedAt
+userId      String
+user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+tasks       Task[]
 
-  @@map("projects")
+@@map("projects")
 }
 
 model Task {
-  id          String      @id @default(uuid())
-  title       String
-  description String
-  status      TaskStatus  @default(todo)
-  priority    TaskPriority @default(medium)
-  dueDate     DateTime?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  
-  projectId   String
-  project     Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  
-  createdById String
-  createdBy   User       @relation("TaskCreator", fields: [createdById], references: [id])
-  
-  assignedToId String?
-  assignedTo   User?     @relation("TaskAssignee", fields: [assignedToId], references: [id])
+id          String       @id @default(uuid())
+title       String
+description String
+status      TaskStatus   @default(todo)
+priority    TaskPriority @default(medium)
+dueDate     DateTime?
+createdAt   DateTime     @default(now())
+updatedAt   DateTime     @updatedAt
 
-  @@map("tasks")
+projectId   String
+project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+createdById String
+createdBy   User        @relation("TaskCreator", fields: [createdById], references: [id])
+
+assignedToId String?
+assignedTo   User?      @relation("TaskAssignee", fields: [assignedToId], references: [id])
+
+@@map("tasks")
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
-  oauth_token_secret String?
-  oauth_token        String?
+id                String  @id @default(cuid())
+userId            String
+type              String
+provider          String
+providerAccountId String
+refresh_token     String?
+access_token      String?
+expires_at        Int?
+token_type        String?
+scope             String?
+id_token          String?
+session_state     String?
+oauth_token_secret String?
+oauth_token        String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([provider, providerAccountId])
-  @@map("accounts")
+@@unique([provider, providerAccountId])
+@@map("accounts")
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+id           String   @id @default(cuid())
+sessionToken String   @unique
+userId       String
+expires      DateTime
+user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("sessions")
+@@map("sessions")
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  projects      Project[]
-  createdTasks  Task[]    @relation("TaskCreator")
-  assignedTasks Task[]    @relation("TaskAssignee")
+id            String    @id @default(cuid())
+name          String?
+email         String?   @unique
+emailVerified DateTime?
+image         String?
+accounts      Account[]
+sessions      Session[]
+projects      Project[]
+createdTasks  Task[]    @relation("TaskCreator")
+assignedTasks Task[]    @relation("TaskAssignee")
 
-  @@map("users")
+@@map("users")
 }
 
 model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+identifier String
+token      String   @unique
+expires    DateTime
 
-  @@unique([identifier, token])
-  @@map("verificationTokens")
+@@unique([identifier, token])
+@@map("verificationTokens")
 }
