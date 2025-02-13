@@ -16,6 +16,7 @@ const SignInPage = () => {
         </p>
         <div className="space-y-4">
           <Button
+            data-testid="github-signin-button"
             onClick={() => {
               signIn('github', { callbackUrl: '/' })
                 .then((data) => {
@@ -43,6 +44,7 @@ const SignInPage = () => {
             </div>
           </Button>
           <Button
+            data-testid="return-home-button"
             onClick={() => router.push('/')}
             className="w-full"
             variant="outline"

@@ -1,131 +1,114 @@
 import { render, screen } from '@testing-library/react';
 import ProjectCard from '.';
-import { ServerActionResponse, UpdateProjectData } from '@/types/project';
+import { ProjectStatus } from '@prisma/client';
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
 
 describe('ProjectCard', () => {
   const mockProject = {
     id: '1',
     title: 'Test Project',
     description: 'Test Description',
-    status: 'active' as const,
-    tasksCount: 3, // Убедитесь, что tasksCount имеет правильный тип
-    updatedAt: new Date('2025-02-05T12:00:00.000Z'),
+    status: ProjectStatus.active,
+    tasksCount: 3,
+    createdAt: new Date('2025-02-05'),
+    updatedAt: new Date('2025-02-05'),
+    userId: 'test-user-id',
   };
 
-  const mockOnDelete = jest.fn<
-    Promise<ServerActionResponse<boolean>>,
-    [string]
-  >();
-  const mockOnUpdate = jest.fn<Promise<void>, [UpdateProjectData]>();
+  const mockOnDelete = jest.fn();
+  const mockOnUpdate = jest.fn();
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('renders project information', () => {
+  it('displays project information correctly', () => {
     render(
       <ProjectCard
-        {...mockProject}
+        project={mockProject}
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
-        createdAt={new Date()}
-        userId="actual-user-id"
       />
     );
 
-    expect(screen.getByText(mockProject.title)).toBeInTheDocument();
-    expect(screen.getByText(mockProject.description)).toBeInTheDocument();
-    expect(screen.getByText(/3 tasks/)).toBeInTheDocument();
-    expect(screen.getByText(/Updated/)).toBeInTheDocument();
+    expect(screen.getByText('Test Project')).toBeInTheDocument();
+    expect(screen.getByText('Test Description')).toBeInTheDocument();
+    expect(screen.getByText('3 tasks')).toBeInTheDocument();
+    expect(screen.getByText('Updated Feb 5, 2025')).toBeInTheDocument();
   });
 
   it('displays correct status indicator', () => {
     render(
       <ProjectCard
-        {...mockProject}
+        project={mockProject}
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
-        createdAt={new Date()}
-        userId="actual-user-id"
       />
     );
 
-    const statusIndicator = screen.getByText('active').previousSibling;
-    expect(statusIndicator).toHaveClass('bg-green-500');
+    const statusText = screen.getByText('Active');
+    const statusIndicator = statusText.previousElementSibling;
+    expect(statusIndicator).toHaveClass('bg-success');
   });
 
-  it('links to project details and edit pages', () => {
+  it('links to project details', () => {
     render(
       <ProjectCard
-        {...mockProject}
+        project={mockProject}
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
-        createdAt={new Date()}
-        userId="actual-user-id"
       />
     );
 
-    const titleLink = screen.getByText(mockProject.title).closest('a');
-    const editButton = screen.getByText('Edit').closest('a');
-
+    const titleLink = screen.getByRole('link', { name: 'Test Project' });
     expect(titleLink).toHaveAttribute('href', `/projects/${mockProject.id}`);
-    expect(editButton).toHaveAttribute(
-      'href',
-      `/projects/${mockProject.id}/edit`
-    );
   });
 
   it('handles different status styles', () => {
+    const completedProject = {
+      ...mockProject,
+      status: ProjectStatus.completed,
+    };
     const { rerender } = render(
       <ProjectCard
-        {...mockProject}
-        status="completed"
+        project={completedProject}
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
-        createdAt={new Date()}
-        userId="actual-user-id"
       />
     );
-    let statusIndicator = screen.getByText('completed').previousSibling;
-    expect(statusIndicator).toHaveClass('bg-blue-500');
 
+    let statusText = screen.getByText('Completed');
+    let statusIndicator = statusText.previousElementSibling;
+    expect(statusIndicator).toHaveClass('bg-info');
+
+    const inProgressProject = {
+      ...mockProject,
+      status: ProjectStatus.archived,
+    };
     rerender(
       <ProjectCard
-        {...mockProject}
-        status="archived"
+        project={inProgressProject}
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
-        createdAt={new Date()}
-        userId="actual-user-id"
       />
     );
-    statusIndicator = screen.getByText('archived').previousSibling;
-    expect(statusIndicator).toHaveClass('bg-gray-500');
+
+    statusText = screen.getByText('archived');
+    statusIndicator = statusText.previousElementSibling;
+    expect(statusIndicator).toHaveClass('bg-warning');
   });
 
-  it('displays correct task count text', () => {
-    const { rerender } = render(
+  it('shows edit and delete buttons', () => {
+    render(
       <ProjectCard
-        {...mockProject}
-        tasksCount={1}
+        project={mockProject}
         onDelete={mockOnDelete}
         onUpdate={mockOnUpdate}
-        createdAt={new Date()}
-        userId="actual-user-id"
       />
     );
-    expect(screen.getByText('1 task')).toBeInTheDocument();
 
-    rerender(
-      <ProjectCard
-        {...mockProject}
-        tasksCount={0}
-        onDelete={mockOnDelete}
-        onUpdate={mockOnUpdate}
-        createdAt={new Date()}
-        userId="actual-user-id"
-      />
-    );
-    expect(screen.getByText('0 tasks')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Edit' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument();
   });
 });

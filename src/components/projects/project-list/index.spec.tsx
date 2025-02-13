@@ -1,49 +1,42 @@
-// src/app/_actions/project.ts
-
 import { render, screen } from '@testing-library/react';
 import ProjectList from '.';
-import { UpdateProjectData, ServerActionResponse } from '@/types/project';
+import { Project } from '@/types/project';
+import { ProjectStatus } from '@prisma/client';
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
 
 describe('ProjectList', () => {
-  const mockProjects = [
+  const mockProjects: Project[] = [
     {
       id: '1',
       title: 'Project 1',
       description: 'Description 1',
-      status: 'active' as const,
+      status: ProjectStatus.active,
       tasksCount: 3,
-      updatedAt: new Date(),
-      createdAt: new Date(),
-      userId: 'user-1',
+      createdAt: new Date('2025-02-05'),
+      updatedAt: new Date('2025-02-05'),
+      userId: '1',
     },
     {
       id: '2',
       title: 'Project 2',
       description: 'Description 2',
-      status: 'completed' as const,
-      tasksCount: 1,
-      updatedAt: new Date(),
-      createdAt: new Date(),
-      userId: 'user-1',
+      status: ProjectStatus.active,
+      tasksCount: 5,
+      createdAt: new Date('2025-02-05'),
+      updatedAt: new Date('2025-02-05'),
+      userId: '2',
     },
   ];
 
-  const mockOnDelete = jest.fn<
-    Promise<ServerActionResponse<boolean>>,
-    [string]
-  >();
-  const mockOnUpdate = jest.fn<Promise<void>, [UpdateProjectData]>();
+  const mockOnDelete = jest.fn();
+  const mockOnUpdate = jest.fn();
 
-  mockOnDelete.mockResolvedValue({
-    data: true,
-    // error: 'Описание ошибки', если необходимо
-  });
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('renders multiple projects', () => {
+  it('renders all projects', () => {
     render(
       <ProjectList
         projects={mockProjects}
@@ -53,24 +46,9 @@ describe('ProjectList', () => {
     );
 
     expect(screen.getByText('Project 1')).toBeInTheDocument();
-    expect(screen.getByText('Project 2')).toBeInTheDocument();
     expect(screen.getByText('Description 1')).toBeInTheDocument();
+    expect(screen.getByText('Project 2')).toBeInTheDocument();
     expect(screen.getByText('Description 2')).toBeInTheDocument();
-  });
-
-  it('displays empty state when no projects', () => {
-    render(
-      <ProjectList
-        projects={[]}
-        onDelete={mockOnDelete}
-        onUpdate={mockOnUpdate}
-      />
-    );
-
-    expect(screen.getByText(/No projects found/i)).toBeInTheDocument();
-    expect(
-      screen.getByText(/Create your first project to get started/i)
-    ).toBeInTheDocument();
   });
 
   it('applies responsive grid classes', () => {
@@ -82,8 +60,13 @@ describe('ProjectList', () => {
       />
     );
 
-    const grid = screen.getByText('Project 1').closest('div')?.parentElement;
-    expect(grid).toHaveClass('grid', 'sm:grid-cols-2', 'lg:grid-cols-3');
+    const grid = screen.getByTestId('project-grid');
+    expect(grid).toHaveClass(
+      'grid',
+      'sm:grid-cols-2',
+      'lg:grid-cols-3',
+      'gap-4'
+    );
   });
 
   it('passes onDelete to ProjectCards', () => {
@@ -95,7 +78,21 @@ describe('ProjectList', () => {
       />
     );
 
-    const deleteButtons = screen.getAllByText('Delete');
+    // Verify that the onDelete prop is passed to each ProjectCard
+    const deleteButtons = screen.getAllByRole('button', { name: 'Delete' });
     expect(deleteButtons).toHaveLength(mockProjects.length);
+  });
+
+  it('handles empty projects array', () => {
+    render(
+      <ProjectList
+        projects={[]}
+        onDelete={mockOnDelete}
+        onUpdate={mockOnUpdate}
+      />
+    );
+
+    const grid = screen.getByTestId('project-grid');
+    expect(grid).toBeEmptyDOMElement();
   });
 });

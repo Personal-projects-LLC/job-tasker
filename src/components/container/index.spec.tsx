@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Container from './index';
 
 describe('Container', () => {
@@ -17,13 +18,27 @@ describe('Container', () => {
   it('includes base classes', () => {
     render(<Container>Content</Container>);
     const container = screen.getByText('Content');
-    expect(container).toHaveClass('mx-auto', 'w-full', 'max-w-7xl');
+    expect(container).toHaveClass(
+      'mx-auto',
+      'w-full',
+      'max-w-7xl',
+      'px-4',
+      'sm:px-6',
+      'lg:px-8'
+    );
   });
 
   it('accepts and merges additional className', () => {
     render(<Container className="test-class">Content</Container>);
     const container = screen.getByText('Content');
-    expect(container).toHaveClass('test-class');
-    expect(container).toHaveClass('mx-auto'); // Base class still present
+    expect(container).toHaveClass(
+      'test-class',
+      'mx-auto',
+      'w-full',
+      'max-w-7xl',
+      'px-4',
+      'sm:px-6',
+      'lg:px-8'
+    ); // All base classes still present
   });
 });

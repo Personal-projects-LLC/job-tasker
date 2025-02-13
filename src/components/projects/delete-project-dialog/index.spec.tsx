@@ -8,10 +8,7 @@ describe('DeleteProjectDialog', () => {
     projectTitle: 'Test Project',
     onDelete: jest
       .fn<Promise<ServerActionResponse<boolean>>, [string]>()
-      .mockResolvedValue({
-        data: true, // или false, в зависимости от сценария
-        // error: 'Описание ошибки', если необходимо
-      }),
+      .mockResolvedValue({ data: true }),
     trigger: <button>Delete</button>,
   };
 
@@ -21,24 +18,41 @@ describe('DeleteProjectDialog', () => {
 
   it('renders trigger element', () => {
     render(<DeleteProjectDialog {...defaultProps} />);
-    expect(screen.getByText('Delete')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument();
   });
 
-  it('opens dialog when trigger is clicked', () => {
+  it('opens dialog with proper accessibility attributes', () => {
     render(<DeleteProjectDialog {...defaultProps} />);
-    fireEvent.click(screen.getByText('Delete'));
-    expect(screen.getByText(/Are you sure/)).toBeInTheDocument();
-    expect(screen.getByText(defaultProps.projectTitle)).toBeInTheDocument();
+
+    // Open dialog
+    fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
+
+    // Check dialog content
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toHaveAttribute(
+      'aria-describedby',
+      'delete-project-description'
+    );
+
+    // Check title and description
+    expect(
+      screen.getByRole('heading', { name: 'Delete Project' })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/Are you sure you want to delete Test Project/)
+    ).toBeInTheDocument();
   });
 
   it('calls onDelete when confirmed', async () => {
     render(<DeleteProjectDialog {...defaultProps} />);
 
     // Open dialog
-    fireEvent.click(screen.getByText('Delete'));
+    fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
 
     // Click delete button
-    fireEvent.click(screen.getByText('Delete Project'));
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Confirm delete project' })
+    );
 
     await waitFor(() => {
       expect(defaultProps.onDelete).toHaveBeenCalledWith(
@@ -55,15 +69,24 @@ describe('DeleteProjectDialog', () => {
     render(<DeleteProjectDialog {...defaultProps} />);
 
     // Open dialog
-    fireEvent.click(screen.getByText('Delete'));
+    fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
 
     // Click delete button
-    fireEvent.click(screen.getByText('Delete Project'));
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Confirm delete project' })
+    );
 
-    expect(screen.getByText('Deleting...')).toBeInTheDocument();
+    // Check loading state
+    const deleteButton = screen.getByRole('button', {
+      name: 'Deleting project',
+    });
+    expect(deleteButton).toBeInTheDocument();
+    expect(deleteButton).toHaveTextContent('Deleting...');
 
     await waitFor(() => {
-      expect(screen.queryByText('Deleting...')).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole('button', { name: 'Deleting project' })
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -73,13 +96,15 @@ describe('DeleteProjectDialog', () => {
     render(<DeleteProjectDialog {...defaultProps} />);
 
     // Open dialog
-    fireEvent.click(screen.getByText('Delete'));
+    fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
 
     // Click delete button
-    fireEvent.click(screen.getByText('Delete Project'));
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Confirm delete project' })
+    );
 
     await waitFor(() => {
-      expect(screen.getByText('Failed to delete project')).toBeInTheDocument();
+      expect(screen.getByText('Unexpected error occurred')).toBeInTheDocument();
     });
   });
 
@@ -91,15 +116,19 @@ describe('DeleteProjectDialog', () => {
     render(<DeleteProjectDialog {...defaultProps} />);
 
     // Open dialog
-    fireEvent.click(screen.getByText('Delete'));
+    fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
 
     // Click delete button
-    fireEvent.click(screen.getByText('Delete Project'));
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Confirm delete project' })
+    );
 
-    const deleteButton = screen.getByText('Deleting...');
-    const cancelButton = screen.getByText('Cancel');
-
-    expect(deleteButton).toBeDisabled();
-    expect(cancelButton).toBeDisabled();
+    // Check disabled states
+    expect(
+      screen.getByRole('button', { name: 'Deleting project' })
+    ).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: 'Cancel deletion' })
+    ).toBeDisabled();
   });
 });

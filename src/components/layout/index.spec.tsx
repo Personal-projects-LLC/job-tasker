@@ -1,17 +1,21 @@
 import { render, screen } from '@testing-library/react';
-import Layout from './index';
+import Layout from '.';
 
-// Mock child components
-jest.mock('../header', () => ({
-  Header: () => <div data-testid="mock-header">Header</div>,
-}));
+// Mock the Header and Footer components
+jest.mock('../header', () => {
+  return function MockHeader() {
+    return <div data-testid="mock-header">Mock Header</div>;
+  };
+});
 
-jest.mock('../footer', () => ({
-  Footer: () => <div data-testid="mock-footer">Footer</div>,
-}));
+jest.mock('../footer', () => {
+  return function MockFooter() {
+    return <div data-testid="mock-footer">Mock Footer</div>;
+  };
+});
 
 describe('Layout', () => {
-  it('renders header, main content and footer', () => {
+  it('renders header, main content, and footer', () => {
     render(
       <Layout>
         <div>Test Content</div>
@@ -30,8 +34,7 @@ describe('Layout', () => {
       </Layout>
     );
 
-    const container =
-      screen.getByText('Test Content').parentElement?.parentElement;
+    const container = screen.getByTestId('layout-container');
     expect(container).toHaveClass('min-h-screen', 'flex', 'flex-col');
   });
 
@@ -42,7 +45,7 @@ describe('Layout', () => {
       </Layout>
     );
 
-    const main = screen.getByText('Test Content').parentElement;
+    const main = screen.getByTestId('layout-main');
     expect(main).toHaveClass('flex-1');
   });
 });
