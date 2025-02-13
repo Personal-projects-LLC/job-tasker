@@ -6,13 +6,21 @@ describe('Button', () => {
   it('renders with default variant and size', () => {
     render(<Button>Click me</Button>);
     const button = screen.getByRole('button', { name: /click me/i });
-    expect(button).toHaveClass('bg-primary');
+    expect(button).toHaveClass(
+      'bg-primary',
+      'text-primary-foreground',
+      'hover:opacity-90'
+    );
   });
 
   it('renders with secondary variant', () => {
     render(<Button variant="secondary">Secondary</Button>);
     const button = screen.getByRole('button', { name: /secondary/i });
-    expect(button).toHaveClass('bg-secondary');
+    expect(button).toHaveClass(
+      'bg-secondary',
+      'text-secondary-foreground',
+      'hover:opacity-90'
+    );
   });
 
   it('renders with different sizes', () => {
@@ -35,6 +43,10 @@ describe('Button', () => {
     );
     const link = screen.getByRole('link', { name: /link button/i });
     expect(link).toHaveAttribute('href', '/test');
-    expect(link).toHaveClass('bg-primary'); // Keeps button styling
+    expect(link).toHaveClass(
+      'bg-primary',
+      'text-primary-foreground',
+      'hover:opacity-90'
+    ); // Keeps button styling
   });
 });

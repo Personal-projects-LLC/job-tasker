@@ -1,3 +1,7 @@
+export interface SampleData {
+  ankap: string;
+}
+
 export interface SampleProps {
-  data: object; // или укажите более конкретный тип вместо пустого интерфейса
+  data: SampleData;
 }

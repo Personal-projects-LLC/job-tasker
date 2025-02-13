@@ -1,23 +1,13 @@
-import { ProjectStatus as PrismaProjectStatus } from '@prisma/client';
-import { Task } from './task';
+import { Project as PrismaProject, ProjectStatus } from '@prisma/client';
 
-export interface Project {
-  id: string;
-  title: string;
-  description: string;
-  status: PrismaProjectStatus;
-  tasksCount: number;
-  createdAt: Date;
-  updatedAt: Date;
-  userId: string;
-  tasks?: Task[];
-}
+export type Project = PrismaProject;
+export { ProjectStatus };
 
 export interface UpdateProjectData {
   id: string;
   title?: string;
   description?: string;
-  status?: PrismaProjectStatus;
+  status?: ProjectStatus;
 }
 
 export interface CreateProjectData {

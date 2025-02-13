@@ -1,5 +1,3 @@
-'use client';
-
 import Button from '@/components/button';
 import { FormEvent, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
@@ -10,9 +8,7 @@ const sanitizeInput = (input: string): string => {
   return input.replace(/</g, '&lt;').replace(/>/g, '&gt;').trim();
 };
 
-const CreateProjectButton = ({
-  onCreateProject,
-}: Readonly<CreateProjectButtonProps>) => {
+const CreateProjectButton = ({ onCreateProject }: CreateProjectButtonProps) => {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -55,17 +51,32 @@ const CreateProjectButton = ({
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <Button onClick={() => setOpen(true)}>Create Project</Button>
+        <Button
+          onClick={() => setOpen(true)}
+          aria-label="Open create project dialog"
+        >
+          Create Project
+        </Button>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/40" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background p-6 rounded-lg shadow-lg w-full max-w-lg">
+        <Dialog.Content
+          className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background p-6 rounded-lg shadow-lg w-full max-w-lg"
+          aria-describedby="create-project-description"
+        >
           <Dialog.Title className="text-lg font-semibold mb-4">
             Create New Project
           </Dialog.Title>
+          <Dialog.Description
+            id="create-project-description"
+            className="text-muted-foreground mb-4"
+          >
+            Fill in the details below to create a new project.
+          </Dialog.Description>
           <form
             onSubmit={(event) => void handleSubmit(event)}
             className="space-y-4"
+            aria-label="Create project form"
           >
             <div>
               <label
@@ -81,6 +92,10 @@ const CreateProjectButton = ({
                 required
                 className="w-full border rounded-md px-3 py-2"
                 placeholder="Enter project title"
+                aria-required="true"
+                aria-invalid={error ? 'true' : 'false'}
+                aria-describedby={error ? 'project-form-error' : undefined}
+                disabled={loading}
               />
             </div>
             <div>
@@ -97,6 +112,10 @@ const CreateProjectButton = ({
                 rows={3}
                 className="w-full border rounded-md px-3 py-2 resize-none"
                 placeholder="Enter project description"
+                aria-required="true"
+                aria-invalid={error ? 'true' : 'false'}
+                aria-describedby={error ? 'project-form-error' : undefined}
+                disabled={loading}
               />
             </div>
             <div className="flex justify-end gap-3">
@@ -105,14 +124,29 @@ const CreateProjectButton = ({
                 variant="ghost"
                 onClick={() => setOpen(false)}
                 disabled={loading}
+                aria-label="Cancel project creation"
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading}>
-                {loading ? 'Creating...' : 'Create'}
+              <Button
+                type="submit"
+                disabled={loading}
+                aria-label={loading ? 'Creating project...' : 'Create project'}
+                data-testid="submit-button"
+              >
+                {loading ? 'Creating project...' : 'Create project'}
               </Button>
             </div>
-            {error && <p className="text-sm text-destructive mt-2">{error}</p>}
+            {error && (
+              <div
+                className="text-sm text-destructive mt-2"
+                role="alert"
+                id="project-form-error"
+                aria-live="polite"
+              >
+                {error}
+              </div>
+            )}
           </form>
         </Dialog.Content>
       </Dialog.Portal>

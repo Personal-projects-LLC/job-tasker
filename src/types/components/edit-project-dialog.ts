@@ -1,12 +1,10 @@
-import { Project } from '@/types/models/project';
+import { ReactElement } from 'react';
+import { UpdateProjectData } from '../project';
 
 export interface EditProjectDialogProps {
-  project: Project;
-  onUpdate: (data: {
-    id: string;
-    title?: string;
-    description?: string;
-    status?: 'active' | 'completed' | 'archived';
-  }) => Promise<void>;
-  trigger: React.ReactNode;
+  projectId: string;
+  projectTitle: string;
+  projectDescription: string;
+  trigger: ReactElement;
+  onUpdate: (data: UpdateProjectData) => Promise<void>;
 }
